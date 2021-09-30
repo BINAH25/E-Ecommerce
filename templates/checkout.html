@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Check Out{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <hr>
+            <h3 class="text-center">Items in the Cart</h3>
+            <a href="{% url 'ecomapp:mycart'%}" class="btn btn-primary">Update Cart</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Product</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cp in cart.cartproduct_set.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{cp.product.title}}</td>
+                        <td>{{cp.rate}}</td>
+                        <td>{{cp.quantity}}</td>
+                        <td>{{cp.subtotal}}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <tr>
+                            <td colspan='4' class="text-right">Total</td>
+                            <td> <strong>GH¢{{cart.total}}</strong> </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <hr>
+            <h3>Check Out Form</h3>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-info">Place Order</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
